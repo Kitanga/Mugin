@@ -1,0 +1,19 @@
+{
+  "name": "mugin",
+  "version": "0.1.0",
+  "description": "An audio library that brings interactive/dynamic music to modern html5 games.",
+  "repository": "https://github.com/Kitanga/Mugin.git",
+  "author": "Kitanga <kitanganday@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "uglify-js": "^3.4.1"
+  },
+  "scripts": {
+    "build": "npm run transpile && npm run minify",
+    "transpile": "babel --presets es2015 src/Mugin.js -o dist/Mugin.js",
+    "minify": "node_modules/.bin/uglifyjs dist/Mugin.js --output dist/Mugin.min.js"
+  }
+}
