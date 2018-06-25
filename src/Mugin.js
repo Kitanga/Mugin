@@ -6,6 +6,7 @@
  *  MIT License
  */
 
+let {Howl, Howler} = require('./howler');
 
 class Mugin {
     constructor() {

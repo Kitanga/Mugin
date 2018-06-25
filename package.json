@@ -8,12 +8,14 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
     "babel-preset-es2015": "^6.24.1",
-    "uglify-js": "^3.4.1"
+    "uglify-js": "^3.4.1",
+    "webpack": "^4.12.1",
+    "webpack-cli": "^3.0.8"
   },
   "scripts": {
-    "build": "npm run transpile && npm run minify",
-    "transpile": "babel --presets es2015 src/Mugin.js -o dist/Mugin.js",
-    "minify": "node_modules/.bin/uglifyjs dist/Mugin.js --output dist/Mugin.min.js"
+    "build": "webpack --mode production ./src/Mugin.js --output ./dist/Mugin.min.js",
+    "dev": "webpack --mode development ./src/Mugin.js --output ./dist/Mugin.js"
   }
 }
