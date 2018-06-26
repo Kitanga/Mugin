@@ -15,7 +15,6 @@ Pretty much the idea is that we split up our track into channels (or stems). One
 ### Setup HTML
 
 ```html
-<script src="path/to/howler.js"></script>
 <script src="path/to/Mugin.js"></script>
 <script>
     // Dev stuffs go here
