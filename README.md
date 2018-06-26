@@ -14,6 +14,17 @@ Pretty much the idea is that we split up our track into channels (or stems). One
 
 ## Documentation (More like what the API needs to be like)
 
+### Setup HTML
+
+```html
+<script src="path/to/howler.js"></script>
+<script src="path/to/Mugin.js"></script>
+<script>
+    // Dev stuffs go here
+    var mugin = new Mugin();
+</script>
+```
+
 ### Preloading audio file
 
 Loading the audio file
@@ -56,6 +67,8 @@ mugin.add.audio('key', {
 });
 ```
 
+### Adding a music group
+
 Now to use Mugin.js, you have to declare an audio group. These audio groups are called music. So as to not cause confusion, `Mugin.add.audio()` adds audio files (sound files that can be played by the browser) and `Mugin.add.music()` groups these audio files. These audio files (or stems to be more exact) together are called music. Got it? Good, moving on...
 
 Adding music is very simple
@@ -83,4 +96,19 @@ mugin.add.music('song', [
 ]);
 ```
 
-The first parameter is the unique key for the 
+The first parameter is the unique key for the group, the second being an array of keys that point to audio files previously loaded, and the third being an array with the same length as the previous audio key array, since it will determine which stem/channel each audio file belongs to (in this case the `key2` audio file will be the `percussion` channel).
+
+### Starting the whole loading process
+
+All we've done up until this point is setup Mugin. Now we start the whole preloading process and wait for all the files to download.
+
+```javascript
+// Start the loading process and tell Mugin what to do when everything has loaded
+var mugin = new Mugin();
+
+// ...setup...
+
+mugin.load(() => {
+    console.log("Done loading assets!");
+});
+```
