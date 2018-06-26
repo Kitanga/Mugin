@@ -4,11 +4,9 @@
 
 An audio library that brings interactive/dynamic music to modern HTML5 games.
 
-**ALL DEVELOPMENT ON DEV BRANCH**
-
 ## Inspiration
 
-This was heavily inspired by the adaptive music system in Transistor as shown [here](https://www.youtube.com/watch?v=gr03nRLbWos&t=7m6s).
+This was heavily inspired by the adaptive music system found in Supergiant Game's Transistor as shown in [this video](https://www.youtube.com/watch?v=gr03nRLbWos&t=7m6s).
 
 Pretty much the idea is that we split up our track into channels (or stems). One channel can hold audio for vocals and another for bass, it's all upto you really. What this allows you to do is increase and decrease the intensity of the track depending on what the user is doing by simply unmuting or muting a channel. In a video game, this could be playing the bass and vocals whilst the player explores and then adding the electronic guitars to the mix when he/she enters battle.
 
@@ -25,7 +23,7 @@ Pretty much the idea is that we split up our track into channels (or stems). One
 </script>
 ```
 
-### Preloading audio file
+### Preloading audio files
 
 Loading the audio file
 
@@ -69,9 +67,9 @@ mugin.add.audio('key', {
 
 ### Adding a music group
 
-Now to use Mugin.js, you have to declare an audio group. These audio groups are called music. So as to not cause confusion, `Mugin.add.audio()` adds audio files (sound files that can be played by the browser) and `Mugin.add.music()` groups these audio files. These audio files (or stems to be more exact) together are called music. Got it? Good, moving on...
+Now to use Mugin, you have to declare an audio group. These audio groups are called music. So as to not cause confusion, `Mugin.add.audio()` adds audio files (sound files that can be played by the browser) and `Mugin.add.music()` groups these audio files. These audio files (or stems to be more exact) together are called music. Got it? Good, moving on...
 
-Adding music is very simple
+Adding music is very simple:
 
 ```javascript
 
