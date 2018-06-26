@@ -12,6 +12,7 @@ import {
     Howler
 } from './howler';
 import AudioFile from './AudioFile';
+import Music from './Music';
 
 /**
  * The interactive music controller.
@@ -22,12 +23,19 @@ class Mugin {
     constructor() {
         this.Howl = Howl;
         this.Howler = Howler;
+
+        this.url = {
+            base: "/",
+
+        }
+
         this.cache = {};
         this.add = {
             _prefetchAudioCache: {},
             _prefetchMusicCache: {},
             _audioFileTotalCount = 0,
             _audioFileCount = 0,
+            addedMusic: false,
             _validateKey: function (key) {
                 // Here we make sure that the key doesn't already exist in the preload caches
                 for (let i in this._prefetchAudioCache) {
@@ -46,19 +54,35 @@ class Mugin {
                     if (this.onload) {
                         this.onload();
                     } else {
-                        console.warn("I should probably set Mugin's onload listener. But hey, this is your game/project not mine.");
+                        console.warn("You should probably set Mugin's onload listener. But hey, this is your game/project not mine.");
                     }
                 }
             },
             _loadAudio: () => {
-                // 
+                // First make sure that we have at least one audio group (aka music)
+                if (!this.add.addedMusic) {
+                    // If we haven't defined a single group
+                    throw new Error("You haven't defined a single music group using Mugin.add.music() function");
+                }
                 let audios = this.add._prefetchAudioCache;
                 for (let ix in audios) {
                     this.cache[ix] = new AudioFile(this, ix, new Howl(audios[ix]));
                     // new Howl(config);
                 }
             },
-            _loadMusic: (key, audios, stems) => {},
+            _loadMusic: () => {
+                // 
+                let music = this.add._prefetchMusicCache;
+                for (let ix in music) {
+                    // Here we set the stems equal to the audio file in the cache
+                    let stems = {};
+                    for (let ix2 = 0, length = music[ix].stems.length; ix2 < length; ix2++) {
+                        // 
+                        stems[music[ix].stems[ix2]] = this.cache[musix[ix].audios[ix2]];
+                    }
+                    this.cache[ix] = new Music(this, ix, stems);
+                }
+            },
             /**
              * Adds an audio file to the cache
              * 
@@ -95,11 +119,14 @@ class Mugin {
             music: function (key, audios, stems) {
                 // Make sure key is used only once
                 this._validateKey(key);
-                if (typeof key === 'string' && Array.isArray(audios) && Array.isArray(stems)) {
+                this.addedMusic = true;
+                if (typeof key === 'string' && Array.isArray(audios) && Array.isArray(stems) && audios.length === stems.length) {
                     this._prefetchMusicCache[key] = {
                         audios,
                         stems
                     };
+                } else {
+                    throw new Error("You loaded the music incorrectly check to make sure the key is a unique key (no other item being loaded--music or audio--has the same key, that the audio and stems params are both arrays with strings inside and the same length.");
                 }
             }
         };
@@ -112,24 +139,9 @@ class Mugin {
         /**
          * Plays the music and any stems specified, otherwise, all the stems are played
          */
-        this.play = (musicKey, audioKey) => {
+        this.play = (key) => {
             // If the music key exists in cache
-            if (this.cache[musicKey] && typeof this.cache[musicKey] === "string") {
-                // Check if the audioKey param is a string or array
-                if (typeof audioKey === "string") {
-                    // Play the audio file
-                    this.cache[audioKey].play();
-                } else if (Array.isArray(audioKey)) {
-                    // If it's an array start playing all the children
-                    for (let ix = 0, length = audioKey.length; ix < length; ix++) {
-                        this.cache[audioKey[i]].play();
-                    }
-                } else {
-                    console.error("Invalid audioKey parameter type. Either that or you didn't put anything");
-                }
-            } else {
-                console.error("Invalid musicKey parameter type. Either that or you didn't put anything");
-            }
+            // if (this.cache[key])
         };
 
         /**

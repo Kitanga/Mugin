@@ -9,12 +9,33 @@ export default class Music extends Playable {
         super(Mugin, key);
         this.stems = stems;
         this.moods = {};
-
-        this.play = (stems, audioProcess) => {
-            // 
-            for (let index = 0, length = stems.length; i < length; i++) {
+        this.playAll = (audioProcess) => {
+            // Otherwise, play all the stems
+            let this_stems = this.stems;
+            for (let ix = 0, length = this_stems.length; ix < length; ix++) {
                 // 
-                audioProcess(this.stems[stems[i]].audio);
+                if (audioProcess) {
+                    audioProcess(this_stems[ix].audio);
+                }
+
+                this_stems[ix].audio.play();
+            }
+        };
+        this.play = (stems, audioProcess) => {
+            // Play
+            if (typeof stems === 'string') {
+                // 
+            } else if (Array.isArray(stems)) {
+                for (let ix = 0, length = stems.length; ix < length; ix++) {
+                    // 
+                    if (audioProcess) {
+                        audioProcess(this.stems[stems[i]].audio);
+                    }
+
+                    this.stems[stems[i]].audio.play();
+                }
+            } else {
+                this.playAll();
             }
         };
 
@@ -22,9 +43,9 @@ export default class Music extends Playable {
             if (Array.isArray(stems)) {
                 if (typeof key === 'string') {
                     this.moods[key] = {
-                        play: function() {
+                        play: () => {
                             // for (let index = 0, length = stems.length; i < length; i++) {
-                                Mugin.music(key).play(stems, audioProcess);
+                            this.play(stems, audioProcess);
                             // }
                         },
                         stems,
