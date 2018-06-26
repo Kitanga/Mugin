@@ -13,6 +13,7 @@ import {
 } from './howler';
 import AudioFile from './AudioFile';
 import Music from './Music';
+import * as util from './util';
 
 /**
  * The interactive music controller.
@@ -94,7 +95,7 @@ class Mugin {
                 this._validateKey(key);
 
                 // Make sure the key exists and that the config's src prop is set to an array with length !== 0
-                if (typeof key === 'string' && Array.isArray(config.src) && config.src.length > 0) {
+                if (typeof key === 'string' && util.isArray(config.src) && config.src.length > 0) {
                     config.onload = this._fileLoaded;
                     this._prefetchAudioCache[key] = config;
                     this._audioFileTotalCount++;
@@ -120,7 +121,7 @@ class Mugin {
                 // Make sure key is used only once
                 this._validateKey(key);
                 this.addedMusic = true;
-                if (typeof key === 'string' && Array.isArray(audios) && Array.isArray(stems) && audios.length === stems.length) {
+                if (typeof key === 'string' && util.isArray(audios) && util.isArray(stems) && audios.length === stems.length) {
                     this._prefetchMusicCache[key] = {
                         audios,
                         stems

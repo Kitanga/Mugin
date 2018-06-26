@@ -4,7 +4,13 @@
 
 An audio library that brings interactive/dynamic music to modern HTML5 games.
 
-ALL DEVELOPMENT ON DEV BRANCH
+**ALL DEVELOPMENT ON DEV BRANCH**
+
+## Inspiration
+
+This was heavily inspired by the adaptive music system in Transistor as shown [here](https://www.youtube.com/watch?v=gr03nRLbWos&t=7m6s).
+
+Pretty much the idea is that we split up our track into channels (or stems). One channel can hold audio for vocals and another for bass, it's all upto you really. What this allows you to do is increase and decrease the intensity of the track depending on what the user is doing by simply unmuting or muting a channel. In a video game, this could be playing the bass and vocals whilst the player explores and then adding the electronic guitars to the mix when he/she enters battle.
 
 ## Documentation (More like what the API needs to be like)
 
