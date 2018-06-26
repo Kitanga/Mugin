@@ -4,6 +4,8 @@
 
 An audio library that brings interactive/dynamic music to modern HTML5 games.
 
+ALL DEVELOPMENT ON DEV BRANCH
+
 ## Documentation (More like what the API needs to be like)
 
 ### Preloading audio file
