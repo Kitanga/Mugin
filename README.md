@@ -24,26 +24,24 @@ Pretty much the idea is that we split up our track into channels (or stems). One
 
 ### Preloading audio files
 
-Loading the audio file
-
 ```javascript
 var mugin = new Mugin();
 
-// Load audio files
+// Add audio supported audio file to load queue
 mugin.add.audio('key', {
     src: ['key.webm', 'key.m4a', 'key.ogg', 'key.mp3']
 });
 ```
 
-The first parameter is the unique key for the audio file (nothing else that requires a key can have this same key) and the second a [Howler.js](https://github.com/goldfire/howler.js) compliant [config object](https://github.com/goldfire/howler.js#options).
+The first parameter is the unique key for the audio file (nothing else that requires a key can have this same key) and the second is a [Howler.js](https://github.com/goldfire/howler.js) compliant [config object](https://github.com/goldfire/howler.js#options).
 
-Alternatively you can set the baseURL for all files to be downloaded from. You can also set the baseURL for all the different formats.
+Alternatively you can set the base URL for all files to be downloaded from. You can also set the relative folder path (relative to base URL) for all the different formats.
 
 ```javascript
 var mugin = new Mugin();
 
 // Setting the base url
-mugin.url.base = "/audio";
+mugin.url.base = '/audio';
 
 // The following will be added to the base url
 mugin.url.webm = '/webm';

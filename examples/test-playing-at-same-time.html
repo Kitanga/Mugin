@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Testing Audio play together</title>
+</head>
+
+<body>
+    <button id="bass" type="button">Bass</button>
+    <button id="drums" type="button">Drums</button>
+    <button id="instruments" type="button">Instruments</button>
+    <button id="melody" type="button">Melody</button>
+    <button id="playAll" type="button">Play All</button>
+    <script src="howler.js"></script>
+    <script>
+        var bass = setup('bass');
+        var drums = setup('drums');
+        var instruments = setup('instruments');
+        var melody = setup('melody');
+
+        function setup(name = '') {
+            var _obj = {
+                firstPlay: true,
+                aud: new Howl({
+                    src: ['audio/ES_Karats STEMS '+ name.toUpperCase() + '.mp3'],
+                    html5: false,
+                    onload: function () {
+                        console.log('Loaded!!!!');
+                        // console.log(_obj);
+                        this.volume(0);
+                        //this.play();
+                        _obj.ele.onclick = () => {
+                            if (_obj.firstPlay) {
+                                this.play();
+                                _obj.firstPlay = false;
+                            }
+
+                            if (!this._volume) {
+                                this.fade(0, 1, 430);
+                                //this.volume(1);
+                            } else {
+                                this.fade(this._volume, 0, 430);
+                                //this.volume(0);
+                            }
+                        };
+                    }
+                }),
+                ele: document.getElementById(name)
+            };
+            return _obj;
+        }
+
+        document.getElementById('playAll').onclick = () => {
+            //console.log(bass.ele);
+            bass.ele.click();
+            drums.ele.click();
+            instruments.ele.click();
+            melody.ele.click();
+        };
+    </script>
+</body>
+
+</html>

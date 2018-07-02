@@ -16,7 +16,8 @@
   },
   "scripts": {
     "build": "webpack --mode production ./src/Mugin.js --output ./dist/Mugin.min.js",
-    "dev": "webpack --mode development ./src/Mugin.js --output ./dist/Mugin.js"
+    "dev": "webpack --mode development ./src/Mugin.js --output ./dist/Mugin.js",
+    "sloc": "sloc src -e howler*"
   },
   "dependencies": {
     "@types/howler": "^2.0.5"

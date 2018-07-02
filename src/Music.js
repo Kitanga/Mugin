@@ -21,6 +21,11 @@ export default class Music extends Playable {
                 this_stems[ix].audio.play();
             }
         };
+        /**
+         * 
+         * @param {string[]} [stems] The stems that need to be playing
+         * @param {function(AudioFile)} [audioProcess] Anything that need to be done before the audio file is faded-in is done here.
+         */
         this.play = (stems, audioProcess) => {
             // Play
             if (typeof stems === 'string') {
@@ -29,7 +34,7 @@ export default class Music extends Playable {
                 for (let ix = 0, length = stems.length; ix < length; ix++) {
                     // 
                     if (audioProcess) {
-                        audioProcess(this.stems[stems[i]].audio);
+                        audioProcess(this.stems[stems[i]]);
                     }
 
                     this.stems[stems[i]].audio.play();

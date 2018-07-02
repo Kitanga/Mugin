@@ -1,4 +1,6 @@
 /// <reference types="howler" />
+'use strict';
+
 /*!
  *  Mugin.js v0.1.0
  *
@@ -7,10 +9,10 @@
  *  MIT License
  */
 
-import {
-    Howl,
-    Howler
-} from './howler';
+// import {
+//     Howl,
+//     Howler
+// } from './howler';
 import AudioFile from './AudioFile';
 import Music from './Music';
 import * as util from './util';
@@ -25,25 +27,54 @@ class Mugin {
         this.Howl = Howl;
         this.Howler = Howler;
 
+        /**
+         * Here we set the url prop that allows us to set the default asset folders for the whole audio project and optionally individual file types.
+         * 
+         * The links are relative.
+         * 
+         * Make sure links have no spaces, but seperated by hyphens.
+         */
         this.url = {
-            base: "/",
+            base: ""
+        };
 
-        }
+        /**
+         * Initializes Mugin. Here we setup the load URLs and such.
+         */
+        this.init = () => {
+            // Start by setting full absolute links
+            let url = this.url;
 
+            // Add a forward slash at the end of the base prop if there isn't one
+            (url.base.length && url.base[url.base.length - 1] !== '/') ? (url.base += '/') : '';
+
+            // Now combine the base url
+            for (let ix in url) {
+                if (ix !== 'base') {
+                    url[ix] = url.base + url[ix];
+                    url[ix][url[ix].length - 1] !== '/' ? (url[ix] += '/') : '';
+                    url[ix] = url[ix].replace(/\/\//g, '/');
+                }
+            }
+        };
+        
         this.cache = {};
         this.add = {
             _prefetchAudioCache: {},
             _prefetchMusicCache: {},
-            _audioFileTotalCount = 0,
-            _audioFileCount = 0,
+            _audioFileCount: 0,
             addedMusic: false,
+            /**
+             * Here we make sure that the key doesn't already exist in the preload caches
+             * @param {string} key 
+             */
             _validateKey: function (key) {
-                // Here we make sure that the key doesn't already exist in the preload caches
                 for (let i in this._prefetchAudioCache) {
                     if (i === key) {
                         throw new Error('Do not use the same key twice for anything!!');
                     }
                 }
+
                 for (let i in this._prefetchMusicCache) {
                     if (i === key) {
                         throw new Error('Do not use the same key twice for anything!!');
@@ -51,20 +82,15 @@ class Mugin {
                 }
             },
             _fileLoaded: () => {
-                if (--this.add._audioFileTotalCount < 1) {
+                if (--this.add._audioFileCount < 1) {
                     if (this.onload) {
                         this.onload();
                     } else {
-                        console.warn("You should probably set Mugin's onload listener. But hey, this is your game/project not mine.");
+                        console.warn("Woh there, please set the onload event.");
                     }
                 }
             },
             _loadAudio: () => {
-                // First make sure that we have at least one audio group (aka music)
-                if (!this.add.addedMusic) {
-                    // If we haven't defined a single group
-                    throw new Error("You haven't defined a single music group using Mugin.add.music() function");
-                }
                 let audios = this.add._prefetchAudioCache;
                 for (let ix in audios) {
                     this.cache[ix] = new AudioFile(this, ix, new Howl(audios[ix]));
@@ -98,7 +124,7 @@ class Mugin {
                 if (typeof key === 'string' && util.isArray(config.src) && config.src.length > 0) {
                     config.onload = this._fileLoaded;
                     this._prefetchAudioCache[key] = config;
-                    this._audioFileTotalCount++;
+                    this._audioFileCount++;
                 }
 
                 // A bunch of warnings to the dev for config props that are going to be overwritten
@@ -132,9 +158,35 @@ class Mugin {
             }
         };
 
-        this.load = () => {
-            this.add._loadAudio();
-            this.add._loadMusic();
+        /**
+         * Validates that Mugin has been setup correctly by developer
+         * @returns bool
+         */
+        this.validate = () => {
+            // First make sure that we have at least one audio file
+            if (!this.add._audioFileCount) {
+                // If we haven't defined a audio file
+                throw new Error("You haven't added a single audio file using Mugin.add.audio() function");
+            }
+            // Now make sure that we have at least one audio group (aka music)
+            if (!this.add.addedMusic) {
+                // If we haven't defined a single group
+                throw new Error("You haven't defined a single music group using Mugin.add.music() function");
+            }
+
+            return true;
+        };
+        // TODO: Make sure loading works
+        this.load = (onload) => {
+            // Validate
+            if (this.validate()) {
+                // First initialize some of Mugin's params
+                this.init();
+                // Now we set the onload event if it exists, 
+                onload ? (this.onload = onload) : console.info("Huh? The onload event is not set. I'm pretty sure this will be set before setup is done.");
+                this.add._loadAudio();
+                this.add._loadMusic();
+            }
         };
 
         /**
@@ -154,6 +206,3 @@ class Mugin {
         };
     }
 }
-
-let t = new Mugin();
-t.add.now();
